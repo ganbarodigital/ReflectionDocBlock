@@ -12,31 +12,31 @@
 
 namespace phpDocumentor\Reflection\DocBlock\Tags\Reference;
 
-use phpDocumentor\Reflection\Fqsen as RealFqsen;
+use phpDocumentor\Reflection\ClassLikeName;
 
 /**
- * Fqsen reference used by {@see phpDocumentor\Reflection\DocBlock\Tags\See}
+ * ClassLikeName reference used by {@see phpDocumentor\Reflection\DocBlock\Tags\See}
  */
-final class Fqsen implements Reference
+final class Name implements Reference
 {
     /**
-     * @var RealFqsen
+     * @var ClassLikeName
      */
-    private $fqsen;
+    private $ref;
 
     /**
      * Fqsen constructor.
      */
-    public function __construct(RealFqsen $fqsen)
+    public function __construct(ClassLikeName $ref)
     {
-        $this->fqsen = $fqsen;
+        $this->ref = $ref;
     }
 
     /**
-     * @return string string representation of the referenced fqsen
+     * @return string string representation of the referenced name
      */
     public function __toString()
     {
-        return (string)$this->fqsen;
+        return (string)$this->ref;
     }
 }

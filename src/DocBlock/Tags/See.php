@@ -13,11 +13,11 @@
 namespace phpDocumentor\Reflection\DocBlock\Tags;
 
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Fqsen as FqsenRef;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Name as NameRef;
 use phpDocumentor\Reflection\DocBlock\Tags\Reference\Reference;
 use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
-use phpDocumentor\Reflection\Fqsen;
-use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\ClassLikeName;
+use phpDocumentor\Reflection\NameResolverInterface;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use phpDocumentor\Reflection\DocBlock\Description;
 use Webmozart\Assert\Assert;
@@ -49,7 +49,7 @@ class See extends BaseTag implements Factory\StaticMethod
      */
     public static function create(
         $body,
-        FqsenResolver $resolver = null,
+        NameResolverInterface $resolver = null,
         DescriptionFactory $descriptionFactory = null,
         TypeContext $context = null
     ) {
@@ -64,7 +64,7 @@ class See extends BaseTag implements Factory\StaticMethod
             return new static(new Url($parts[0]), $description);
         }
 
-        return new static(new FqsenRef($resolver->resolve($parts[0], $context)), $description);
+        return new static(new NameRef($resolver->resolve($parts[0], $context)), $description);
     }
 
     /**

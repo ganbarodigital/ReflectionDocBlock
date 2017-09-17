@@ -14,7 +14,7 @@ namespace phpDocumentor\Reflection\DocBlock;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\StaticMethod;
 use phpDocumentor\Reflection\DocBlock\Tags\Generic;
-use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\NameResolverInterface;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use Webmozart\Assert\Assert;
 
@@ -71,9 +71,9 @@ final class StandardTagFactory implements TagFactory
     private $tagHandlerParameterCache = [];
 
     /**
-     * @var FqsenResolver
+     * @var NameResolverInterface
      */
-    private $fqsenResolver;
+    private $nameResolver;
 
     /**
      * @var mixed[] an array representing a simple Service Locator where we can store parameters and
@@ -87,19 +87,19 @@ final class StandardTagFactory implements TagFactory
      * If no tag handlers are provided than the default list in the {@see self::$tagHandlerMappings} property
      * is used.
      *
-     * @param FqsenResolver $fqsenResolver
+     * @param NameResolverInterface $nameResolver
      * @param string[]      $tagHandlers
      *
      * @see self::registerTagHandler() to add a new tag handler to the existing default list.
      */
-    public function __construct(FqsenResolver $fqsenResolver, array $tagHandlers = null)
+    public function __construct(NameResolverInterface $nameResolver, array $tagHandlers = null)
     {
-        $this->fqsenResolver = $fqsenResolver;
+        $this->nameResolver = $nameResolver;
         if ($tagHandlers !== null) {
             $this->tagHandlerMappings = $tagHandlers;
         }
 
-        $this->addService($fqsenResolver, FqsenResolver::class);
+        $this->addService($nameResolver, NameResolverInterface::class);
     }
 
     /**
@@ -217,7 +217,7 @@ final class StandardTagFactory implements TagFactory
             $handlerClassName = $this->tagHandlerMappings[$tagName];
         } elseif ($this->isAnnotation($tagName)) {
             // TODO: Annotation support is planned for a later stage and as such is disabled for now
-            // $tagName = (string)$this->fqsenResolver->resolve($tagName, $context);
+            // $tagName = (string)$this->nameResolver->resolve($tagName, $context);
             // if (isset($this->annotationMappings[$tagName])) {
             //     $handlerClassName = $this->annotationMappings[$tagName];
             // }

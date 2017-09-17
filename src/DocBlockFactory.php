@@ -47,12 +47,12 @@ final class DocBlockFactory implements DocBlockFactoryInterface
      */
     public static function createInstance(array $additionalTags = [])
     {
-        $fqsenResolver = new FqsenResolver();
-        $tagFactory = new StandardTagFactory($fqsenResolver);
+        $nameResolver = new FqsenResolver();
+        $tagFactory = new StandardTagFactory($nameResolver);
         $descriptionFactory = new DescriptionFactory($tagFactory);
 
         $tagFactory->addService($descriptionFactory);
-        $tagFactory->addService(new TypeResolver($fqsenResolver));
+        $tagFactory->addService(new TypeResolver($nameResolver));
 
         $docBlockFactory = new self($descriptionFactory, $tagFactory);
         foreach ($additionalTags as $tagName => $tagHandler) {

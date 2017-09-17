@@ -13,10 +13,10 @@
 namespace phpDocumentor\Reflection\DocBlock\Tags;
 
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
-use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\ClassLikeName;
 use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
-use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\NameResolverInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -26,16 +26,16 @@ final class Covers extends BaseTag implements Factory\StaticMethod
 {
     protected $name = 'covers';
 
-    /** @var Fqsen */
+    /** @var ClassLikeName */
     private $refers = null;
 
     /**
      * Initializes this tag.
      *
-     * @param Fqsen $refers
+     * @param ClassLikeName $refers
      * @param Description $description
      */
-    public function __construct(Fqsen $refers, Description $description = null)
+    public function __construct(ClassLikeName $refers, Description $description = null)
     {
         $this->refers = $refers;
         $this->description = $description;
@@ -47,7 +47,7 @@ final class Covers extends BaseTag implements Factory\StaticMethod
     public static function create(
         $body,
         DescriptionFactory $descriptionFactory = null,
-        FqsenResolver $resolver = null,
+        NameResolverInterface $resolver = null,
         TypeContext $context = null
     )
     {
@@ -65,7 +65,7 @@ final class Covers extends BaseTag implements Factory\StaticMethod
     /**
      * Returns the structural element this tag refers to.
      *
-     * @return Fqsen
+     * @return ClassLikeName
      */
     public function getReference()
     {
